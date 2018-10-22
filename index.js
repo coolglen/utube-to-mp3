@@ -14,7 +14,7 @@ app.use(express.static('./public'));
 
 app.post('/g', (req, res) => {
     res.json({
-        message: process.env.PORT,
+        message: process.env,
         test:'test'
     })
 })
