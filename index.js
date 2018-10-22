@@ -12,20 +12,26 @@ app.use(bodyParser.json());
 app.use(express.static('./public'));
 
 
-app.get('/', (req, res) => {
-
+app.POST('/g', (req, res) => {
+    res.JSON({
+        message: process.env.PORT
+    })
 })
 
 app.post('/youtube-api', (req, res) => {
 
     if (req.body.videoId) {
         youtubeApi.getVideoData(req.body.videoId).then(result => {
-            res.json({'video': result})
+            res.json({
+                'video': result
+            })
         });
-    }else if(req.body.playlistId){
-        youtubeApi.getAllPlaylistData(req.body.playlistId).then(result =>{
-            
-            res.json({'playlist': result})
+    } else if (req.body.playlistId) {
+        youtubeApi.getAllPlaylistData(req.body.playlistId).then(result => {
+
+            res.json({
+                'playlist': result
+            })
         });
     }
 });
@@ -40,11 +46,11 @@ app.post('/progress', (req, res) => {
     res.json(progress);
 });
 
-app.get('/download/',(req, res) => {
+app.get('/download/', (req, res) => {
     console.log("here");
-    
+
     console.log(req.query.path);
-    res.sendFile(__dirname +"\\"+ req.query.path);
+    res.sendFile(__dirname + "\\" + req.query.path);
 })
 
 const port = process.env.PORT || 5000;
