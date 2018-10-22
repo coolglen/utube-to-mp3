@@ -1,0 +1,14 @@
+[v-cloak] { 
+    display: none; 
+}
+
+main {
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 4em;
+}
+
+.video-list-item{
+    background-color: #073642;
+    border-radius: 0.3rem
+}

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Youtube To Mp3</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://bootswatch.com/4/solar/bootstrap.min.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor02">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <main id="app" v-cloak>
+        <div class="alert alert-danger" v-if="error" role="alert">
+            {{error}}
+        </div>
+
+        <div class="input-group mb-3" v-if="!loadingVideo">
+            <input type="text" class="form-control" v-model="url" placeholder="Video Url" aria-label="Video Url"
+                aria-describedby="button-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" v-on:click="addUrl" id="button-addon2">Add</button>
+            </div>         
+        </div>
+
+        <div v-if="loadingVideo"><img src="./img/loader.gif" alt="loader">loading</div>
+
+        <div class="media m-0 video-list-item mb-1" v-for="item in videoList">
+            <img class="mr-3" :src="item.video.snippet.thumbnails.default.url" alt="Generic placeholder image">
+            <div class="media-body">
+                    <h5 class=" col-sm m-0 pl-0">{{item.video.snippet.title}}</h5>
+                <div class="status-box" style="height: 2em">
+                    <div class="mr-2 float-left">Status: </div>
+                    <div v-if="item.video.downloadStatus == 'waiting'">Not Started</div>
+                    <div v-if="item.video.downloadStatus.progress && item.video.downloadStatus.progress.notStarted">Starting...</div>
+                        
+                    <div class="progress mt-1" v-if="item.video.downloadStatus.progress && !item.video.downloadStatus.progress.notStarted && !item.video.downloadStatus.res">
+                            <div class="progress-bar v-if" v-bind:style="{width: Math.floor(item.video.downloadStatus.progress.percentage) + '%'}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div v-if="item.video.downloadStatus.res">Complete.</div>
+                </div>
+                <ul class="nav nav-pills">
+                    <li class="nav-item">
+                        <button type="button" class="btn btn-sm btn-warning mr-3" v-if="item.video.downloadStatus == 'waiting'" v-on:click="removeItem(item)">Remove</button>
+                    </li>
+                    <li class="nav-item">
+                            <button type="button" class="btn btn-sm btn-success"  v-if="item.video.downloadStatus == 'waiting'" v-on:click="convertItem(item.video)">Convert</button>
+                            <button type="button" class="btn btn-sm btn-success" v-if="item.video.downloadStatus.res" v-on:click="downloadItem(item.video)">Download</button>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+
+
+    </main>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>
