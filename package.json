@@ -1,6 +1,6 @@
 {
   "name": "youtube-to-mp3",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Converts Youtube video's to mp3's",
   "main": "index.js",
   "engines": {
