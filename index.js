@@ -12,9 +12,10 @@ app.use(bodyParser.json());
 app.use(express.static('./public'));
 
 
-app.POST('/g', (req, res) => {
-    res.JSON({
-        message: process.env.PORT
+app.post('/g', (req, res) => {
+    res.json({
+        message: process.env.PORT,
+        test:'test'
     })
 })
 
